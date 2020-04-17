@@ -55,16 +55,19 @@ class Battlesnake(object):
         if(head['y'] == data["board"]["height"] - 1):
             possible_moves.remove("down")
 
-        #don't hit yourself
+        #don't hit yourself, dummy
         body = data['you']['body']
-        if(body[1]["x"]<head["x"]):
-            possible_moves.remove("left")
-        elif(body[1]["x"]>head["x"]):
-            possible_moves.remove("right")
-        elif(body[1]["y"]<head["y"]):
-            possible_moves.remove("up")
-        elif(body[1]["y"]>head["y"]):
-            possible_moves.remove("down")
+        for segment in body:
+            if(segment["y"] == head["y"]):
+                if(segment["x"] == head["x"] - 1):
+                    possible_moves.remove("left")
+                elif(segment["x"] == head["x"] + 1):
+                    possible_moves.remove("right")
+            elif(segment["x"] == head["x"]):
+                if(segment["y"] == head["y"] - 1):
+                    possible_moves.remove("up")
+                elif(segment["y"] == head["y"] + 1):
+                    possible_moves.remove("down")
 
         move = random.choice(possible_moves)
 
