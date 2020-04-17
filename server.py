@@ -81,7 +81,7 @@ class Battlesnake(object):
                     elif(segment["y"] == head["y"] + 1):
                         possible_moves = self.remove(possible_moves, "down")
 
-        #Avoid big heads
+        #Big snake evasion
         for snake in snakes:
             if(len(snake["body"]) < len(body) or snake["id"] == data['you']['id']):
                 continue
@@ -107,19 +107,30 @@ class Battlesnake(object):
                 favourable_moves = self.remove(favourable_moves, "right")
                 favourable_moves = self.remove(favourable_moves, "down")
 
-        #choose
-        favourable_moves2 = []
-        for direction in favourable_moves:
-            if(direction in possible_moves):
-                favourable_moves2.append(direction)
+        #Preference for the middle
+        if(head['x'] == 1):
+            favourable_moves = self.remove(favourable_moves, "left")
+        if(head['y'] == 1):
+            favourable_moves = self.remove(favourable_moves, "up")
+        if(head['x'] == data["board"]["width"] - 2):
+            favourable_moves = self.remove(favourable_moves, "right")
+        if(head['y'] == data["board"]["height"] - 2):
+            favourable_moves = self.remove(favourable_moves, "down")
 
+        #handle favourable, yet non-possible moves
+        directions = copy(favourable_moves)
+        for direction in directions:
+            if(direction not in possible_moves):
+                favourable_moves.remove(direction)
+
+        #choose
         if(len(possible_moves)==0):
             print("OH SHIT! Guess I'll just die then.")
             move = "up"
-        elif(len(favourable_moves2)==0):
+        elif(len(favourable_moves)==0):
             move = random.choice(possible_moves)
         else:
-            move = random.choice(favourable_moves2)
+            move = random.choice(favourable_moves)
 
         print(f"MOVE: {move}")
         return {"move": move}
