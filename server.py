@@ -66,7 +66,7 @@ class Battlesnake(object):
             possible_moves.remove("down")
 
         #don't hit yourself, dummy
-        for i in range(len(snake["body"])-1):
+        for i in range(len(body)-1):
             segment = snake["body"][i]
             if(segment["y"] == head["y"]):
                 if(segment["x"] == head["x"] - 1):
