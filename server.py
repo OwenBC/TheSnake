@@ -118,7 +118,7 @@ class Battlesnake(object):
             favourable_moves = self.remove(favourable_moves, "down")
 
         #handle favourable, yet non-possible moves
-        directions = copy(favourable_moves)
+        directions = favourable_moves.copy()
         for direction in directions:
             if(direction not in possible_moves):
                 favourable_moves.remove(direction)
