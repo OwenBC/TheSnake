@@ -62,16 +62,24 @@ class Battlesnake(object):
                 if(segment["x"] == head["x"] - 1):
                     try:
                         possible_moves.remove("left")
+                    except:
+                        pass
                 elif(segment["x"] == head["x"] + 1):
                     try:
                         possible_moves.remove("right")
+                    except:
+                        pass
             elif(segment["x"] == head["x"]):
                 if(segment["y"] == head["y"] - 1):
                     try:
                         possible_moves.remove("up")
+                    except:
+                        pass
                 elif(segment["y"] == head["y"] + 1):
                     try:
                         possible_moves.remove("down")
+                    except:
+                        pass
 
         #Don't hit others either
         enemy_snakes = data["board"]["snakes"]
@@ -81,16 +89,24 @@ class Battlesnake(object):
                     if(segment["x"] == head["x"] - 1):
                         try:
                             possible_moves.remove("left")
+                        except:
+                            pass
                     elif(segment["x"] == head["x"] + 1):
                         try:
                             possible_moves.remove("right")
+                        except:
+                            pass
                 elif(segment["x"] == head["x"]):
                     if(segment["y"] == head["y"] - 1):
                         try:
                             possible_moves.remove("up")
+                        except:
+                            pass
                     elif(segment["y"] == head["y"] + 1):
                         try:
                             possible_moves.remove("down")
+                        except:
+                            pass
 
         if(len(possible_moves)==0):
             print("OH SHIT! Guess I'll just die then.")
