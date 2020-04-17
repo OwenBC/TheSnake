@@ -26,7 +26,6 @@ class Battlesnake(object):
     def start(self):
         # This function is called everytime your snake is entered into a game.
         # cherrypy.request.json contains information about the game that's about to be played.
-        # TODO: Use this function to decide how your snake is going to look on the board.
         data = cherrypy.request.json
         print("START")
         return {"color": "#A06B36", "headType": "safe", "tailType": "freckled"}
@@ -42,6 +41,14 @@ class Battlesnake(object):
 
         # Choose a random direction to move in
         possible_moves = ["up", "down", "left", "right"]
+        head = data['you']['body'][0]
+
+        print(head)
+
+        #Check for walls
+        #if(head['x'] == 0):
+
+
         move = random.choice(possible_moves)
 
         print(f"MOVE: {move}")
