@@ -123,8 +123,8 @@ class Battlesnake(object):
 
         #choose
         for direction in favourable_moves:
-            if(not direction in possible_moves):
-                favourable_moves = self.remove(favourable_moves, direction)
+            if(direction not in possible_moves):
+                favourable_moves.remove(direction)
 
         print(f"favourable_moves: {favourable_moves}")
         print(f"possible_moves: {possible_moves}")
