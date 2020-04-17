@@ -70,14 +70,14 @@ class Battlesnake(object):
             segment = body[i]
             if(segment["y"] == head["y"]):
                 if(segment["x"] == head["x"] - 1):
-                    possible_moves = remove(possible_moves, "left")
+                    possible_moves = self.remove(possible_moves, "left")
                 elif(segment["x"] == head["x"] + 1):
-                    possible_moves = remove(possible_moves, "right")
+                    possible_moves = self.remove(possible_moves, "right")
             elif(segment["x"] == head["x"]):
                 if(segment["y"] == head["y"] - 1):
-                    possible_moves = remove(possible_moves, "up")
+                    possible_moves = self.remove(possible_moves, "up")
                 elif(segment["y"] == head["y"] + 1):
-                    possible_moves = remove(possible_moves, "down")
+                    possible_moves = self.remove(possible_moves, "down")
 
         #Don't hit others either
         enemy_snakes = data["board"]["snakes"]
@@ -86,14 +86,14 @@ class Battlesnake(object):
                 segment = snake["body"][i]
                 if(segment["y"] == head["y"]):
                     if(segment["x"] == head["x"] - 1):
-                        possible_moves = remove(possible_moves, "left")
+                        possible_moves = self.remove(possible_moves, "left")
                     elif(segment["x"] == head["x"] + 1):
-                        possible_moves = remove(possible_moves, "right")
+                        possible_moves = self.remove(possible_moves, "right")
                 elif(segment["x"] == head["x"]):
                     if(segment["y"] == head["y"] - 1):
-                        possible_moves = remove(possible_moves, "up")
+                        possible_moves = self.remove(possible_moves, "up")
                     elif(segment["y"] == head["y"] + 1):
-                        possible_moves = remove(possible_moves, "down")
+                        possible_moves = self.remove(possible_moves, "down")
 
         #Avoid big heads
         for snake in enemy_snakes:
@@ -101,30 +101,30 @@ class Battlesnake(object):
                 continue
             enemy_head = snake["body"][0]
             if(enemy_head["x"] == head["x"] - 2 and enemy_head["y"] == head["y"]):   #left 2
-                favourable_moves = remove(favourable_moves, "left")
+                favourable_moves = self.remove(favourable_moves, "left")
             elif(enemy_head["x"] == head["x"] + 2 and enemy_head["y"] == head["y"]):   #right 2
-                favourable_moves = remove(favourable_moves, "right")
+                favourable_moves = self.remove(favourable_moves, "right")
             elif(enemy_head["x"] == head["x"] and enemy_head["y"] == head["y"] - 2):   #up 2
-                favourable_moves = remove(favourable_moves, "up")
+                favourable_moves = self.remove(favourable_moves, "up")
             elif(enemy_head["x"] == head["x"] and enemy_head["y"] == head["y"] + 2):   #down 2
-                favourable_moves = remove(favourable_moves, "down")
+                favourable_moves = self.remove(favourable_moves, "down")
             elif(enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] - 1):   #left 1 up 1
-                favourable_moves = remove(favourable_moves, "left")
-                favourable_moves = remove(favourable_moves, "up")
+                favourable_moves = self.remove(favourable_moves, "left")
+                favourable_moves = self.remove(favourable_moves, "up")
             elif(enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] + 1):   #left 1 down 1
-                favourable_moves = remove(favourable_moves, "left")
-                favourable_moves = remove(favourable_moves, "down")
+                favourable_moves = self.remove(favourable_moves, "left")
+                favourable_moves = self.remove(favourable_moves, "down")
             elif(enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] - 1):   #right 1 up 1
-                favourable_moves = remove(favourable_moves, "right")
-                favourable_moves = remove(favourable_moves, "up")
+                favourable_moves = self.remove(favourable_moves, "right")
+                favourable_moves = self.remove(favourable_moves, "up")
             elif(enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] + 1):   #right 1 down 1
-                favourable_moves = remove(favourable_moves, "right")
-                favourable_moves = remove(favourable_moves, "down")
+                favourable_moves = self.remove(favourable_moves, "right")
+                favourable_moves = self.remove(favourable_moves, "down")
 
         #choose
         for direction in favourable_moves:
             if(not direction in possible_moves):
-                favourable_moves = remove(favourable_moves, direction)
+                favourable_moves = self.remove(favourable_moves, direction)
 
         if(len(possible_moves)==0):
             print("OH SHIT! Guess I'll just die then.")
