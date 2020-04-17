@@ -60,14 +60,18 @@ class Battlesnake(object):
         for segment in body:
             if(segment["y"] == head["y"]):
                 if(segment["x"] == head["x"] - 1):
-                    possible_moves.remove("left")
+                    try:
+                        possible_moves.remove("left")
                 elif(segment["x"] == head["x"] + 1):
-                    possible_moves.remove("right")
+                    try:
+                        possible_moves.remove("right")
             elif(segment["x"] == head["x"]):
                 if(segment["y"] == head["y"] - 1):
-                    possible_moves.remove("up")
+                    try:
+                        possible_moves.remove("up")
                 elif(segment["y"] == head["y"] + 1):
-                    possible_moves.remove("down")
+                    try:
+                        possible_moves.remove("down")
 
         #Don't hit others either
         enemy_snakes = data["board"]["snakes"]
@@ -75,14 +79,18 @@ class Battlesnake(object):
             for segment in snake["body"]:
                 if(segment["y"] == head["y"]):
                     if(segment["x"] == head["x"] - 1):
-                        possible_moves.remove("left")
+                        try:
+                            possible_moves.remove("left")
                     elif(segment["x"] == head["x"] + 1):
-                        possible_moves.remove("right")
+                        try:
+                            possible_moves.remove("right")
                 elif(segment["x"] == head["x"]):
                     if(segment["y"] == head["y"] - 1):
-                        possible_moves.remove("up")
+                        try:
+                            possible_moves.remove("up")
                     elif(segment["y"] == head["y"] + 1):
-                        possible_moves.remove("down")
+                        try:
+                            possible_moves.remove("down")
 
         if(len(possible_moves)==0):
             print("OH SHIT! Guess I'll just die then.")
