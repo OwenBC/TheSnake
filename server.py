@@ -69,7 +69,26 @@ class Battlesnake(object):
                 elif(segment["y"] == head["y"] + 1):
                     possible_moves.remove("down")
 
-        move = random.choice(possible_moves)
+        #Don't hit others either
+        enemy_snakes = data["board"]["snakes"]
+        for snake in enemy_snakes:
+            for segment in snake:
+                if(segment["y"] == head["y"]):
+                    if(segment["x"] == head["x"] - 1):
+                        possible_moves.remove("left")
+                    elif(segment["x"] == head["x"] + 1):
+                        possible_moves.remove("right")
+                elif(segment["x"] == head["x"]):
+                    if(segment["y"] == head["y"] - 1):
+                        possible_moves.remove("up")
+                    elif(segment["y"] == head["y"] + 1):
+                        possible_moves.remove("down")
+
+        if(len(possible_moves)==0):
+            print("OH SHIT! Guess I'll just die then.")
+            move = "up"
+        else:
+            move = random.choice(possible_moves)
 
         print(f"MOVE: {move}")
         return {"move": move}
