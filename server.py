@@ -65,23 +65,9 @@ class Battlesnake(object):
         if(head['y'] == data["board"]["height"] - 1):
             possible_moves.remove("down")
 
-        #don't hit yourself, dummy
-        for i in range(len(body)-1):
-            segment = body[i]
-            if(segment["y"] == head["y"]):
-                if(segment["x"] == head["x"] - 1):
-                    possible_moves = self.remove(possible_moves, "left")
-                elif(segment["x"] == head["x"] + 1):
-                    possible_moves = self.remove(possible_moves, "right")
-            elif(segment["x"] == head["x"]):
-                if(segment["y"] == head["y"] - 1):
-                    possible_moves = self.remove(possible_moves, "up")
-                elif(segment["y"] == head["y"] + 1):
-                    possible_moves = self.remove(possible_moves, "down")
-
-        #Don't hit others either
-        enemy_snakes = data["board"]["snakes"]
-        for snake in enemy_snakes:
+        #Don't hit snakes
+        snakes = data["board"]["snakes"]
+        for snake in snakes:
             for i in range(len(snake["body"])-1):
                 segment = snake["body"][i]
                 if(segment["y"] == head["y"]):
@@ -96,8 +82,8 @@ class Battlesnake(object):
                         possible_moves = self.remove(possible_moves, "down")
 
         #Avoid big heads
-        for snake in enemy_snakes:
-            if(len(snake["body"]) < len(body)):
+        for snake in snakes:
+            if(len(snake["body"]) < len(body) or snake["id"] == data['you']['id']):
                 continue
             enemy_head = snake["body"][0]
             if(enemy_head["x"] == head["x"] - 2 and enemy_head["y"] == head["y"]):   #left 2
