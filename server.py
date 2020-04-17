@@ -30,6 +30,13 @@ class Battlesnake(object):
         print("START")
         return {"color": "#A06B36", "headType": "safe", "tailType": "freckled"}
 
+    def remove(self, input_list, remove):
+        try:
+            input_list.remove(remove)
+        except:
+            pass
+        return input_list
+
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
@@ -41,7 +48,10 @@ class Battlesnake(object):
 
         # Choose a random direction to move in
         possible_moves = ["up", "down", "left", "right"]
+        favourable_moves = ["up", "down", "left", "right"]
+        
         head = data['you']['body'][0]
+        body = data['you']['body']
 
         print(f"Head pos: {head}")
 
@@ -56,63 +66,73 @@ class Battlesnake(object):
             possible_moves.remove("down")
 
         #don't hit yourself, dummy
-        body = data['you']['body']
-        for segment in body:
+        for i in range(len(snake["body"])-1):
+            segment = snake["body"][i]
             if(segment["y"] == head["y"]):
                 if(segment["x"] == head["x"] - 1):
-                    try:
-                        possible_moves.remove("left")
-                    except:
-                        pass
+                    possible_moves = remove(possible_moves, "left")
                 elif(segment["x"] == head["x"] + 1):
-                    try:
-                        possible_moves.remove("right")
-                    except:
-                        pass
+                    possible_moves = remove(possible_moves, "right")
             elif(segment["x"] == head["x"]):
                 if(segment["y"] == head["y"] - 1):
-                    try:
-                        possible_moves.remove("up")
-                    except:
-                        pass
+                    possible_moves = remove(possible_moves, "up")
                 elif(segment["y"] == head["y"] + 1):
-                    try:
-                        possible_moves.remove("down")
-                    except:
-                        pass
+                    possible_moves = remove(possible_moves, "down")
 
         #Don't hit others either
         enemy_snakes = data["board"]["snakes"]
         for snake in enemy_snakes:
-            for segment in snake["body"]:
+            for i in range(len(snake["body"])-1):
+                segment = snake["body"][i]
                 if(segment["y"] == head["y"]):
                     if(segment["x"] == head["x"] - 1):
-                        try:
-                            possible_moves.remove("left")
-                        except:
-                            pass
+                        possible_moves = remove(possible_moves, "left")
                     elif(segment["x"] == head["x"] + 1):
-                        try:
-                            possible_moves.remove("right")
-                        except:
-                            pass
+                        possible_moves = remove(possible_moves, "right")
                 elif(segment["x"] == head["x"]):
                     if(segment["y"] == head["y"] - 1):
-                        try:
-                            possible_moves.remove("up")
-                        except:
-                            pass
+                        possible_moves = remove(possible_moves, "up")
                     elif(segment["y"] == head["y"] + 1):
-                        try:
-                            possible_moves.remove("down")
-                        except:
-                            pass
+                        possible_moves = remove(possible_moves, "down")
+
+        #Avoid big heads
+        for snake in enemy_snakes:
+            if(len(snake["body"]) < len(body)):
+                continue
+            enemy_head = snake["body"][0]
+            if(enemy_head["x"] == head["x"] - 2 and enemy_head["y"] == head["y"]):   #left 2
+                favourable_moves = remove(favourable_moves, "left")
+            elif(enemy_head["x"] == head["x"] + 2 and enemy_head["y"] == head["y"]):   #right 2
+                favourable_moves = remove(favourable_moves, "right")
+            elif(enemy_head["x"] == head["x"] and enemy_head["y"] == head["y"] - 2):   #up 2
+                favourable_moves = remove(favourable_moves, "up")
+            elif(enemy_head["x"] == head["x"] and enemy_head["y"] == head["y"] + 2):   #down 2
+                favourable_moves = remove(favourable_moves, "down")
+            elif(enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] - 1):   #left 1 up 1
+                favourable_moves = remove(favourable_moves, "left")
+                favourable_moves = remove(favourable_moves, "up")
+            elif(enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] + 1):   #left 1 down 1
+                favourable_moves = remove(favourable_moves, "left")
+                favourable_moves = remove(favourable_moves, "down")
+            elif(enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] - 1):   #right 1 up 1
+                favourable_moves = remove(favourable_moves, "right")
+                favourable_moves = remove(favourable_moves, "up")
+            elif(enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] + 1):   #right 1 down 1
+                favourable_moves = remove(favourable_moves, "right")
+                favourable_moves = remove(favourable_moves, "down")
+
+        #choose
+        for direction in favourable_moves:
+            if(not direction in possible_moves):
+                favourable_moves = remove(favourable_moves, direction)
 
         if(len(possible_moves)==0):
             print("OH SHIT! Guess I'll just die then.")
             move = "up"
-        else:
+        elif(len(favourable_moves)==0):
             move = random.choice(possible_moves)
+        else:
+            move = random.choice(favourable_moves)
 
         print(f"MOVE: {move}")
         return {"move": move}
