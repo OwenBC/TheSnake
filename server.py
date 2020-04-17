@@ -124,7 +124,7 @@ class Battlesnake(object):
         #choose
         favourable_moves2 = []
         for direction in favourable_moves:
-            if(direction not in possible_moves):
+            if(direction in possible_moves):
                 favourable_moves2.append(direction)
 
         print(f"favourable_moves2: {favourable_moves2}")
