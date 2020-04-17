@@ -122,20 +122,21 @@ class Battlesnake(object):
                 favourable_moves = self.remove(favourable_moves, "down")
 
         #choose
+        favourable_moves2 = []
         for direction in favourable_moves:
             if(direction not in possible_moves):
-                favourable_moves.remove(direction)
+                favourable_moves2.append(direction)
 
-        print(f"favourable_moves: {favourable_moves}")
+        print(f"favourable_moves2: {favourable_moves2}")
         print(f"possible_moves: {possible_moves}")
 
         if(len(possible_moves)==0):
             print("OH SHIT! Guess I'll just die then.")
             move = "up"
-        elif(len(favourable_moves)==0):
+        elif(len(favourable_moves2)==0):
             move = random.choice(possible_moves)
         else:
-            move = random.choice(favourable_moves)
+            move = random.choice(favourable_moves2)
 
         print(f"MOVE: {move}")
         return {"move": move}
