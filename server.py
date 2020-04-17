@@ -43,11 +43,28 @@ class Battlesnake(object):
         possible_moves = ["up", "down", "left", "right"]
         head = data['you']['body'][0]
 
-        print(head)
+        print(f"Head pos: {head}")
 
         #Check for walls
-        #if(head['x'] == 0):
+        if(head['x'] == 0):
+            possible_moves.remove("left")
+        if(head['y'] == 0):
+            possible_moves.remove("up")
+        if(head['x'] == data["board"]["width"] - 1):
+            possible_moves.remove("right")
+        if(head['y'] == data["board"]["height"] - 1):
+            possible_moves.remove("down")
 
+        #don't hit yourself
+        body = data['you']['body']
+        if(body[1]["x"]<head["x"]):
+            possible_moves.remove("left")
+            elif(body[1]["x"]>head["x"]):
+                possible_moves.remove("right")
+                elif(body[1]["y"]<head["y"]):
+                    possible_moves.remove("up")
+                    elif(body[1]["y"]>head["y"]):
+                        possible_moves.remove("down")
 
         move = random.choice(possible_moves)
 
