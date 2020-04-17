@@ -72,7 +72,7 @@ class Battlesnake(object):
         #Don't hit others either
         enemy_snakes = data["board"]["snakes"]
         for snake in enemy_snakes:
-            for segment in snake:
+            for segment in snake["body"]:
                 if(segment["y"] == head["y"]):
                     if(segment["x"] == head["x"] - 1):
                         possible_moves.remove("left")
