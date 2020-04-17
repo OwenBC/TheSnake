@@ -59,12 +59,12 @@ class Battlesnake(object):
         body = data['you']['body']
         if(body[1]["x"]<head["x"]):
             possible_moves.remove("left")
-            elif(body[1]["x"]>head["x"]):
-                possible_moves.remove("right")
-                elif(body[1]["y"]<head["y"]):
-                    possible_moves.remove("up")
-                    elif(body[1]["y"]>head["y"]):
-                        possible_moves.remove("down")
+        elif(body[1]["x"]>head["x"]):
+            possible_moves.remove("right")
+        elif(body[1]["y"]<head["y"]):
+            possible_moves.remove("up")
+        elif(body[1]["y"]>head["y"]):
+            possible_moves.remove("down")
 
         move = random.choice(possible_moves)
 
