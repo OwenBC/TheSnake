@@ -127,9 +127,6 @@ class Battlesnake(object):
             if(direction in possible_moves):
                 favourable_moves2.append(direction)
 
-        print(f"favourable_moves2: {favourable_moves2}")
-        print(f"possible_moves: {possible_moves}")
-
         if(len(possible_moves)==0):
             print("OH SHIT! Guess I'll just die then.")
             move = "up"
