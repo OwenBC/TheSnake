@@ -84,13 +84,13 @@ class Battlesnake(object):
                 points[direction.down.value] += pt_change
             elif(enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] - 1):   #left 1 up 1
                 points[direction.left.value] += pt_change
-                points[direction.right.value] += pt_change
+                points[direction.up.value] += pt_change
             elif(enemy_head["x"] == head["x"] - 1 and enemy_head["y"] == head["y"] + 1):   #left 1 down 1
                 points[direction.left.value] += pt_change
                 points[direction.down.value] += pt_change
             elif(enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] - 1):   #right 1 up 1
                 points[direction.right.value] += pt_change
-                points[direction.right.value] += pt_change
+                points[direction.up.value] += pt_change
             elif(enemy_head["x"] == head["x"] + 1 and enemy_head["y"] == head["y"] + 1):   #right 1 down 1
                 points[direction.right.value] += pt_change
                 points[direction.down.value] += pt_change
