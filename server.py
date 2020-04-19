@@ -131,6 +131,7 @@ class Battlesnake(object):
         for i in range(4):
             if(points[i] == max_pts):
                 move_choices.append(direction(i).name)
+        print(f"points: {points}")   
         print(f"move choices: {move_choices}")
 
 
