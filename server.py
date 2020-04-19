@@ -123,7 +123,7 @@ class Battlesnake(object):
 
         self.nearby_heads(points, data, 2, -6)
 
-        self.outer_tiles(points, data, -1)
+        #self.outer_tiles(points, data, -1)
 
         #choose
         move_choices = []
