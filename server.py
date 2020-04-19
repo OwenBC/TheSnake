@@ -131,6 +131,9 @@ class Battlesnake(object):
         for i in range(4):
             if(points[i] == max_pts):
                 move_choices.append(direction(i).name)
+        print(f"move choices: {move_choices}")
+
+
         #choose
         if(len(move_choices)==0):
             print("OH SHIT! Guess I'll just die then.")
