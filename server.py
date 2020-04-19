@@ -100,11 +100,17 @@ class Battlesnake(object):
         #Preference for the middle
         if(head['x'] == 1):
             points[direction.left.value] += pt_change
+        elif(head['x'] == data["board"]["width"] - 2):
+            points[direction.right.value] += pt_change
+        elif(head['x'] == 0 or head['x'] == data["board"]["width"] - 1):
+            points[direction.up.value] += pt_change
+            points[direction.down.value] += pt_change
         if(head['y'] == 1):
             points[direction.up.value] += pt_change
-        if(head['x'] == data["board"]["width"] - 2):
-            points[direction.right.value] += pt_change
-        if(head['y'] == data["board"]["height"] - 2):
+        elif(head['y'] == data["board"]["height"] - 2):
+            points[direction.down.value] += pt_change
+        elif(head['y'] == 0 or head['y'] == data["board"]["height"] - 1):
+            points[direction.up.value] += pt_change
             points[direction.down.value] += pt_change
 
     @cherrypy.expose
@@ -136,11 +142,7 @@ class Battlesnake(object):
 
 
         #choose
-        if(len(move_choices)==0):
-            print("OH SHIT! Guess I'll just die then.")
-            move = "up"
-        else:
-            move = random.choice(move_choices)
+        move = random.choice(move_choices)
 
         print(f"MOVE: {move}")
         return {"move": move}
