@@ -14,7 +14,7 @@ class Battlesnake(object):
     @cherrypy.expose
     def index(self):
         # If you open your snake URL in a browser you should see this message.
-        return "Your Battlesnake is alive!"
+        return "If you're reading this it's working"
 
     @cherrypy.expose
     def ping(self):
@@ -113,6 +113,21 @@ class Battlesnake(object):
             points[direction.up.value] += pt_change
             points[direction.down.value] += pt_change
 
+    def adjacent_food(self, points, data, pt_change):
+        head = data['you']['body'][0]
+        #point bonus for nearby food
+        for food in data["board"]["food"]:
+            if(food["y"] == head["y"]):
+                if(food["x"] == head["x"] - 1):
+                    points[direction.left.value] += pt_change
+                elif(food["x"] == head["x"] + 1):
+                    points[direction.right.value] += pt_change
+            elif(food["x"] == head["x"]):
+                if(food["y"] == head["y"] - 1):
+                    points[direction.up.value] += pt_change
+                elif(food["y"] == head["y"] + 1):
+                    points[direction.down.value] += pt_change
+
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
@@ -127,9 +142,11 @@ class Battlesnake(object):
         #check for definite collisions
         self.collision_check(points, data, -1000)
 
-        self.nearby_heads(points, data, 2, -6)
+        self.nearby_heads(points, data, 3, -9)
 
         self.outer_tiles(points, data, -1)
+
+        self.adjacent_food(points, data, 2)
 
         #choose
         move_choices = []
