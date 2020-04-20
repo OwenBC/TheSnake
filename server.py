@@ -148,7 +148,8 @@ class Battlesnake(object):
         #passive food grabbing
         self.adjacent_food(points, data, 2)
 
-        print(f"snakes: {data["board"]["snakes"]}")   
+        sneks = data["board"]["snakes"]
+        print(f"snakes: {sneks}")   
         #get moves with most points
         move_choices = []
         max_pts = max(points)
