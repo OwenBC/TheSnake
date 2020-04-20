@@ -102,7 +102,7 @@ class Battlesnake(object):
             points[direction.left.value] += pt_change
         elif(head['x'] == data["board"]["width"] - 2):
             points[direction.right.value] += pt_change
-        elif(head['x'] == 0 or head['x'] == data["board"]["width"] - 1):
+        elif((head['x'] == 0 or head['x'] == data["board"]["width"] - 1) and (head["y"] < data["board"]["height"] - 1 and head["y"] > 0)):
             points[direction.up.value] += pt_change
             points[direction.down.value] += pt_change
         if(head['y'] == 1):
