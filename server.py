@@ -141,15 +141,16 @@ class Battlesnake(object):
                 indices = [i]
             elif(dist == min_dist):
                 indices.append(i)
-        target_food = food[random.choice(indices)]
-        if(target_food["x"]<head["x"]):
-            points[direction.left.value] += pt_change
-        elif(target_food["x"]>head["x"]):
-            points[direction.right.value] += pt_change
-        if(target_food["y"]<head["y"]):
-            points[direction.up.value] += pt_change
-        elif(target_food["y"]>head["y"]):
-            points[direction.down.value] += pt_change
+        if(min_dist < (data["board"]["width"] + data["board"]["height"])/2):
+            target_food = food[random.choice(indices)]
+            if(target_food["x"]<head["x"]):
+                points[direction.left.value] += pt_change
+            elif(target_food["x"]>head["x"]):
+                points[direction.right.value] += pt_change
+            if(target_food["y"]<head["y"]):
+                points[direction.up.value] += pt_change
+            elif(target_food["y"]>head["y"]):
+                points[direction.down.value] += pt_change
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -163,7 +164,6 @@ class Battlesnake(object):
         points = [0]*4
 
         snake_count = len(data["board"]["snakes"])
-        print(f"# of snakes: {snake_count}") 
 
         #check for definite collisions
         self.collision_check(points, data, -1000)
@@ -172,7 +172,7 @@ class Battlesnake(object):
         #preference to stay away from walls
         self.outer_tiles(points, data, -1)
         #food grabbing
-        if(data["you"]["health"] < 100 or snake_count == 2): #active
+        if(data["you"]["health"] < 50 or snake_count == 2): #active
             self.seek_food(points, data, 2)
         else: #passive
             self.adjacent_food(points, data, 2)
@@ -183,8 +183,8 @@ class Battlesnake(object):
         for i in range(4):
             if(points[i] == max_pts):
                 move_choices.append(direction(i).name)
-        # print(f"points: {points}")   
-        # print(f"move choices: {move_choices}")
+        print(f"points: {points}")   
+        print(f"move choices: {move_choices}")
 
         #choose
         move = random.choice(move_choices)
