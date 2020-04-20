@@ -141,22 +141,22 @@ class Battlesnake(object):
 
         #check for definite collisions
         self.collision_check(points, data, -1000)
-
+        #chase smaller snakes, avoid bigger ones
         self.nearby_heads(points, data, 3, -9)
-
+        #preference to stay away from walls
         self.outer_tiles(points, data, -1)
-
+        #passive food grabbing
         self.adjacent_food(points, data, 2)
 
-        #choose
+        print(f"snakes: {data["board"]["snakes"]}")   
+        #get moves with most points
         move_choices = []
         max_pts = max(points)
         for i in range(4):
             if(points[i] == max_pts):
                 move_choices.append(direction(i).name)
-        print(f"points: {points}")   
-        print(f"move choices: {move_choices}")
-
+        # print(f"points: {points}")   
+        # print(f"move choices: {move_choices}")
 
         #choose
         move = random.choice(move_choices)
