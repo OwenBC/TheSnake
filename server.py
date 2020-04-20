@@ -128,6 +128,29 @@ class Battlesnake(object):
                 elif(food["y"] == head["y"] + 1):
                     points[direction.down.value] += pt_change
 
+    def seek_food(self, points, data, pt_change):
+        head = data['you']['body'][0]
+        food = data["board"]["food"]
+        #favour closest food
+        min_dist = data["board"]["width"] + data["board"]["height"]
+        indices = []
+        for i in range(len(food)):
+            dist = abs(head["x"]-food[i]["x"]) + abs(head["y"]-food[i]["y"])
+            if(dist < min_dist):
+                min_dist = dist
+                indices = [i]
+            elif(dist == min_dist):
+                indices.append(i)
+        target_food = food[random.choice(indices)]
+        if(target_food["x"]<head["x"]):
+            points[direction.left.value] += pt_change
+        elif(target_food["x"]>head["x"]):
+            points[direction.right.value] += pt_change
+        if(target_food["y"]<head["y"]):
+            points[direction.up.value] += pt_change
+        elif(target_food["y"]>head["y"]):
+            points[direction.down.value] += pt_change
+
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
@@ -139,17 +162,21 @@ class Battlesnake(object):
         #left right up down
         points = [0]*4
 
+        snake_count = len(data["board"]["snakes"])
+        print(f"# of snakes: {snake_count}") 
+
         #check for definite collisions
         self.collision_check(points, data, -1000)
         #chase smaller snakes, avoid bigger ones
         self.nearby_heads(points, data, 3, -9)
         #preference to stay away from walls
         self.outer_tiles(points, data, -1)
-        #passive food grabbing
-        self.adjacent_food(points, data, 2)
+        #food grabbing
+        if(data["you"]["health"] < 100 or snake_count == 2): #active
+            self.seek_food(points, data, 2)
+        else: #passive
+            self.adjacent_food(points, data, 2)
 
-        sneks = len(data["board"]["snakes"])
-        print(f"# of snakes: {sneks}")   
         #get moves with most points
         move_choices = []
         max_pts = max(points)
