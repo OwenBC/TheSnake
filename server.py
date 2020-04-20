@@ -172,7 +172,7 @@ class Battlesnake(object):
         #preference to stay away from walls
         self.outer_tiles(points, data, -1)
         #food grabbing
-        if(data["you"]["health"] < 50 or snake_count == 2): #active
+        if(data["you"]["health"] < 75 or snake_count == 2): #active
             self.seek_food(points, data, 2)
         else: #passive
             self.adjacent_food(points, data, 2)
