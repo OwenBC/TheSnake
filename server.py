@@ -110,8 +110,8 @@ class Battlesnake(object):
         elif(head['y'] == data["board"]["height"] - 2):
             points[direction.down.value] += pt_change
         elif(head['y'] == 0 or head['y'] == data["board"]["height"] - 1):
-            points[direction.up.value] += pt_change
-            points[direction.down.value] += pt_change
+            points[direction.left.value] += pt_change
+            points[direction.right.value] += pt_change
 
     def adjacent_food(self, points, data, pt_change):
         head = data['you']['body'][0]
