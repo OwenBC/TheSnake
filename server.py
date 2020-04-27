@@ -105,9 +105,9 @@ class Battlesnake(object):
         elif((head['x'] == 0 or head['x'] == data["board"]["width"] - 1) and (head["y"] < data["board"]["height"] - 1 and head["y"] > 0)):
             points[direction.up.value] += pt_change
             points[direction.down.value] += pt_change
-        if(head['y'] == 1):
+        if(head['y'] == 1 and head["x"] < data["board"]["height"] - 1 and head["x"] > 0):
             points[direction.up.value] += pt_change
-        elif(head['y'] == data["board"]["height"] - 2):
+        elif(head['y'] == data["board"]["height"] - 2 and head["x"] < data["board"]["height"] - 1 and head["x"] > 0):
             points[direction.down.value] += pt_change
         elif(head['y'] == 0 or head['y'] == data["board"]["height"] - 1):
             points[direction.left.value] += pt_change
@@ -178,6 +178,8 @@ class Battlesnake(object):
             self.adjacent_food(points, data, 2)
 
         #get moves with most points
+        print(f"pts: {points}")
+        
         move_choices = []
         max_pts = max(points)
         for i in range(4):
