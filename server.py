@@ -29,7 +29,7 @@ class Battlesnake(object):
         # cherrypy.request.json contains information about the game that's about to be played.
         data = cherrypy.request.json
         print("START")
-        return {"color": "#FFFFFF", "headType": "safe", "tailType": "block-bum"}
+        return {"color": "#F1F1F1", "headType": "dead", "tailType": "block-bum"}
 
     def collision_check(self, points, data, pt_change):
         head = data['you']['body'][0]
