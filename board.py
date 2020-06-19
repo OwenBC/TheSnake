@@ -38,10 +38,10 @@ class Board:
 
 
 	def __setPos(self, x, y, val):
-		board[x][y] = val
+		self.board[x][y] = val
 
 	def getPos(self, x, y):
 		if(x<0 or y<0 or x==data['board']['width'] or y==data['board']['height']):
 			return 'W'
 		else:
-			return board[x][y]
+			return self.board[x][y]
