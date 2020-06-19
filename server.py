@@ -117,7 +117,7 @@ class Battlesnake(object):
                 indices = [i]
             elif(dist == min_dist):
                 indices.append(i)
-        if(min_dist < (width + height)/4):
+        if(min_dist < (width + height)/2):
             target_food = food[random.choice(indices)]
             if(target_food["x"]<x):
                 points[direction.left.value] += pt_change
@@ -159,7 +159,6 @@ class Battlesnake(object):
             self.adjacent_food(points, x, y, gameboard, 2)
 
         #get moves with most points
-        print(f"pts: {points}")
         
         move_choices = []
         max_pts = max(points)
