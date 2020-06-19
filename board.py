@@ -43,7 +43,7 @@ class Board:
 		self.board[x][y] = val
 
 	def getPos(self, x, y):
-		if(x<0 or y<0 or x==self.width or y==self.height):
+		if(x<0 or y<0 or x>self.width-1 or y>self.height-1):
 			return 'W'
 		else:
 			return self.board[x][y]
