@@ -147,16 +147,16 @@ class Battlesnake(object):
         width,height = data["board"]["width"],data["board"]["height"]
 
         #check for definite collisions
-        self.collision_check(points, x, y, width, height, board, -1000)
+        self.collision_check(points, x, y, width, height, gameboard, -1000)
         #chase smaller snakes, avoid bigger ones
-        self.adj_heads(points, x, y, board, 3, -9)
+        self.adj_heads(points, x, y, gameboard, 3, -9)
         #preference to stay away from walls
         self.outer_tiles(points, x, y, width, height, -1)
         #food grabbing
         if(data['you']['health']<95): #active
             self.seek_food(points, data["board"]["food"], x, y, width, height, 2)
         else: #passive
-            self.adjacent_food(points, x, y, board, 2)
+            self.adjacent_food(points, x, y, gameboard, 2)
 
         #get moves with most points
         print(f"pts: {points}")
