@@ -44,13 +44,13 @@ class Battlesnake(object):
             points[direction.down.value] += pt_change
 
         #Don't hit snakes, including youself
-        if(board.getPos(x-1,y) != 'x'):
+        if(board.getPos(x-1,y) != 'x' and board.getPos(x-1,y) != 'F'):
             points[direction.left.value] += pt_change
-        if(board.getPos(x+1,y) != 'x'):
+        if(board.getPos(x+1,y) != 'x' and board.getPos(x+1,y) != 'F'):
             points[direction.right.value] += pt_change
-        if(board.getPos(x,y-1) != 'x'):
+        if(board.getPos(x,y-1) != 'x' and board.getPos(x,y-1) != 'F'):
             points[direction.up.value] += pt_change
-        if(board.getPos(x,y+1) != 'x'):
+        if(board.getPos(x,y+1) != 'x' and board.getPos(x,y+1) != 'F'):
             points[direction.down.value] += pt_change
 
     def adj_heads(self, points, x, y, board, pt_change_prey, pt_change_pred):
@@ -153,7 +153,7 @@ class Battlesnake(object):
         #preference to stay away from walls
         self.outer_tiles(points, x, y, width, height, -1)
         #food grabbing
-        if(False): #active
+        if(data['you']['health']<95): #active
             self.seek_food(points, data["board"]["food"], x, y, width, height, 2)
         else: #passive
             self.adjacent_food(points, x, y, gameboard, 2)
