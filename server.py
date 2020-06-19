@@ -154,7 +154,7 @@ class Battlesnake(object):
         self.outer_tiles(points, x, y, width, height, -1)
         #food grabbing
         if(data['you']['health']<95): #active
-            self.seek_food(points, data["board"]["food"], x, y,, width, height, 2)
+            self.seek_food(points, data["board"]["food"], x, y, width, height, 2)
         else: #passive
             self.adjacent_food(points, x, y, board, 2)
 

@@ -34,14 +34,14 @@ class Board:
 				self.__setPos(x,y,head)
 			elif(i <= length):
 				self.__setPos(x,y,body)
-			i++;
+			i+=1
 
 
 	def __setPos(self, x, y, val):
 		board[x][y] = val
 
 	def getPos(self, x, y):
-		if(x<0||y<0||x==data['board']['width']||y==data['board']['height']):
+		if(x<0 or y<0 or x==data['board']['width'] or y==data['board']['height']):
 			return 'W'
 		else:
 			return board[x][y]
