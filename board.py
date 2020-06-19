@@ -21,7 +21,7 @@ class Board:
 			else:
 				self.__addSnakeToBoard(snake, 'H','b')
 		for food in data['board']['food']:
-			self.__setPos(food[x],food[y],'F')
+			self.__setPos(food['x'],food['y'],'F')
 
 
 	def __addSnakeToBoard(self, snake, head, body):
