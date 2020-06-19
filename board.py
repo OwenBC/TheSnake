@@ -13,6 +13,8 @@ class Board:
 
 	def __init__(self, data):
 		self.board = [['x' for y in range(data['board']['height'])] for x in range(data['board']['width'])]
+		self.width = data['board']['width']
+		self.height = data['board']['height']
 		for snake in data['board']['snakes']:
 			if(snake['id']==data['you']['id']):
 				self.__addSnakeToBoard(snake, 'M','B')
@@ -41,7 +43,7 @@ class Board:
 		self.board[x][y] = val
 
 	def getPos(self, x, y):
-		if(x<0 or y<0 or x==data['board']['width'] or y==data['board']['height']):
+		if(x<0 or y<0 or x==self.width or y==self.height):
 			return 'W'
 		else:
 			return self.board[x][y]
