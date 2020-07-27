@@ -34,7 +34,7 @@ class Board:
 			y = segment['y']
 			if(i == 1):
 				self.__setPos(x,y,head)
-			elif(i <= length):
+			elif(i < length):
 				self.__setPos(x,y,body)
 			i+=1
 
