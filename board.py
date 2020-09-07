@@ -103,7 +103,6 @@ class Board:
 
 	#tell me how to get to back end
 	def coil(self, head, tail):
-		def coil(self, head, tail):
 		path = self.__astarPath(head, tail)
 		if path == None:
 			return None
