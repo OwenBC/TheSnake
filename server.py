@@ -44,19 +44,30 @@ class Battlesnake(object):
         tail = (data['you']['body'][-1]['x'], data['you']['body'][-1]['y'])
         
         move = None
+        move_msg = "ERROR"
 
         #hungr, look for food
         if(data["you"]["health"] < 20):
             move = gameboard.seek_food(head, data["board"]["food"])
-
+            move_msg = "looking for food"
         #chase tail
         if(move == None):
             move = gameboard.coil(head, tail)
+            move_msg = "chasing tail"
+        #food again
+        if(move == None):
+            move = gameboard.seek_food(head, data["board"]["food"])
+            move_msg = "looking for food"
+        #if nothing else works
         if(move == None):
             move = gameboard.desperation(head)
+            move_msg = "looking for open adjacent spots"
+        #don't really need this as it should only trigger if surrounded
         if(move == None):
             move = "down"
+            move_msg = "I'm dead"
 
+        print(f"STRATEGY: {move_msg}")
         print(f"MOVE: {move}")
         return {"move": move}
 
