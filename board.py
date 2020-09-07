@@ -28,7 +28,6 @@ class Board:
 			else:
 				self.__addSnakeToBoard(snake, 5)
 
-
 	def __addSnakeToBoard(self, snake, head):
 		i = 1
 		length = snake['length']
@@ -64,19 +63,20 @@ class Board:
 				return "right"
 
 	def __return_first_move(self, path):
-		self.__get_move(path[0], path[1])
+		return self.__get_move(path[0], path[1])
 
 	def __astarPath(self, start, end):
 		return astar.astar(self.board, start, end)
 
 	#check path for two closest foods and return first move of shortest path
 	def seek_food(self, pos, food):
+		food_length = len(food)
 		targets = []
-		while len(targets) < min(2, len(food)):
+		while len(targets) < min(2, food_length):
 			temp_targets = []  
 			min_dist = self.width + self.height
 			for f in food:
-				dist = abs(pos[0]-food["x"]) + abs(pos[1]-food["y"])
+				dist = abs(pos[0]-f["x"]) + abs(pos[1]-f["y"])
 				if(dist < min_dist):
 					min_dist = dist
 					temp_targets = [f]
@@ -89,15 +89,16 @@ class Board:
 		for f in targets:
 			f_pos = (f["x"],f["y"])
 			path = self.__astarPath(pos, f_pos)
-			if path == None:
-				continue
-			astarPaths.append([len(path), self.__return_first_move(path)])
+			if path != None:
+				astarPaths.append([len(path), self.__return_first_move(path)])
 		if len(astarPaths) == 0:
 			return None
+		#print(astarPaths)
 		target = astarPaths[0]
 		for f in astarPaths:
 			if f[0] < target[0]:
 				target = f
+		#print(target)
 		return target[1]
 
 	#tell me how to get to back end
@@ -109,10 +110,12 @@ class Board:
 		x = head[0]
 		y = head[1]
 		options = [(x+1,y),(x-1,y),(x,y+1),(x,y-1)]
+		open_moves = []
 		for d in options:
 			val = self.getPos(d)
-			if val > 2 or val == -1:
-				options.remove(d)
-		if len(options) == 0:
+			if val < 3 and val != -1:
+				open_moves.append(d)
+		#print(open_moves)
+		if len(open_moves) == 0:
 			return None
-		return self.__get_move(head, random.choice(options))
+		return self.__get_move(head, random.choice(open_moves))

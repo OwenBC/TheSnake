@@ -1,5 +1,4 @@
 import os
-import random
 
 import cherrypy
 from board import Board
