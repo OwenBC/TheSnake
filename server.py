@@ -53,7 +53,7 @@ class Battlesnake(object):
         if(move == None and data["turn"] > 1):
             move = gameboard.coil(head, tail)
             move_msg = "chasing tail"
-        #food again
+        #food again 
         if(move == None):
             move = gameboard.seek_food(head, data["board"]["food"])
             move_msg = "looking for food2"

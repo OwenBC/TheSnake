@@ -80,7 +80,8 @@ class Board:
 	def __astarPath(self, start, end):
 		return astar.astar(self.board, start, end)
 
-	#check path for two closest foods and return first move of shortest path
+	#check path for two closest foods and return first move of shortest path 
+	#TODO: try to find path that leads to a tail
 	def seek_food(self, pos, food):
 		food_length = len(food)
 		targets = []
@@ -119,6 +120,8 @@ class Board:
 		if path == None:
 			return None
 		return self.__return_first_move(path)
+
+	#TODO: Coil function for other snakes tails. Note: make sure snake hasn't just eaten
 
 	#pick an empty adjacent move
 	def desperation(self,head):
