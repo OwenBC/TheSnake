@@ -103,7 +103,11 @@ class Board:
 
 	#tell me how to get to back end
 	def coil(self, head, tail):
-		return self.__return_first_move(self.__astarPath(head, tail))
+		def coil(self, head, tail):
+		path = self.__astarPath(head, tail)
+		if path == None:
+			return None
+		return self.__return_first_move(path)
 
 	#pick an empty adjacent move
 	def desperation(self,head):
