@@ -46,17 +46,17 @@ class Battlesnake(object):
         move_msg = "ERROR"
 
         #hungr, look for food
-        if(data["you"]["health"] < 20):
+        if(data["you"]["health"] < 60):
             move = gameboard.seek_food(head, data["board"]["food"])
             move_msg = "looking for food"
         #chase tail
-        if(move == None):
+        if(move == None and data["turn"] > 1):
             move = gameboard.coil(head, tail)
             move_msg = "chasing tail"
         #food again
         if(move == None):
             move = gameboard.seek_food(head, data["board"]["food"])
-            move_msg = "looking for food"
+            move_msg = "looking for food2"
         #if nothing else works
         if(move == None):
             move = gameboard.desperation(head)

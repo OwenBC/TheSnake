@@ -7,6 +7,7 @@ import random
 3 - my head
 4 - my body
 5 - larger or equivalent enemy head
+6 - big head adjacent/near me
 2 - smaller enemy head
 4 - enemy body
 1 - food
@@ -27,6 +28,17 @@ class Board:
 				self.__addSnakeToBoard(snake, 2)
 			else:
 				self.__addSnakeToBoard(snake, 5)
+		head = (data['you']['body'][0]['x'], data['you']['body'][0]['y'])
+		for i in self.__get_adj(head):
+			for j in self.__get_adj(i):
+				if self.getPos(j) == 5 and self.getPos(i) < 3 and self.getPos(i) != -1:
+					self.__setPos(i[0],i[1],6)
+
+	def __get_adj(self, pos):
+		x = pos[0]
+		y = pos[1]
+		return [(x+1,y),(x-1,y),(x,y+1),(x,y-1)]
+
 
 	def __addSnakeToBoard(self, snake, head):
 		i = 1
@@ -110,15 +122,17 @@ class Board:
 
 	#pick an empty adjacent move
 	def desperation(self,head):
-		x = head[0]
-		y = head[1]
-		options = [(x+1,y),(x-1,y),(x,y+1),(x,y-1)]
+		adj = self.__get_adj(head)
 		open_moves = []
-		for d in options:
+		for d in adj:
 			val = self.getPos(d)
 			if val < 3 and val != -1:
 				open_moves.append(d)
-		#print(open_moves)
+		if len(open_moves) == 0:
+			for d in adj:
+				val = self.getPos(d)
+				if val == 6:
+					open_moves.append(d)
 		if len(open_moves) == 0:
 			return None
 		return self.__get_move(head, random.choice(open_moves))
