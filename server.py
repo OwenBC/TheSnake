@@ -46,7 +46,7 @@ class Battlesnake(object):
         move_msg = "ERROR"
 
         #hungr, look for food
-        if(data["you"]["health"] < 60):
+        if(data["you"]["health"] < 95):
             move = gameboard.seek_food(head, data["board"]["food"])
             move_msg = "looking for food"
         #chase tail
