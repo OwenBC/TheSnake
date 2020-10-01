@@ -43,8 +43,9 @@ class Battlesnake(object):
         move = None
         move_msg = "ERROR"
 
+        #TODO: look for food if not biggest snake, if biggest HUNT
         #hungr, look for food
-        if data["you"]["health"] < (20 + 80 * (len(data["board"]["snakes"])/4)): #change to make food lower priority as snakes die
+        if data["you"]["health"] < 100 - data["turn"]: #change to make food lower priority as snakes die
             move = gameboard.seek_food(head, tail, data["board"]["food"], data["you"]["health"] <= 5)
             move_msg = "looking for food"
         #chase tail
