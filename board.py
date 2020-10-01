@@ -116,7 +116,9 @@ class Board:
 	def coil(self, head, tail, allow_danger_moves = False):
 		path = self.__astarPath(head, tail, allow_danger_moves)
 		if path == None:
-			return None
+			path = self.__astarPath(head, tail, allow_danger_moves, tail_is_target = True)
+			if path == None or len(path) == 2:
+				return None
 		return self.__return_first_move(path)
 
 	#TODO: Coil function for other snakes tails. Note: make sure snake hasn't just eaten
