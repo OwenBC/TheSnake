@@ -22,8 +22,6 @@ class Battlesnake(object):
         # This function is called everytime your snake is entered into a game.
         # cherrypy.request.json contains information about the game that's about to be played.
         # TODO: Use this function to decide how your snake is going to look on the board.
-        data = cherrypy.request.json
-
         print("START")
         return "ok"
 
@@ -57,6 +55,10 @@ class Battlesnake(object):
         if(move == None):
             move = gameboard.seek_food(head, tail, data["board"]["food"])
             move_msg = "looking for food2"
+        #chase tail dangerously
+        if(move == None and data["turn"] > 1):
+            move = gameboard.coil(head, tail, True)
+            move_msg = "chasing tail dangerously"
         #if nothing else works
         if(move == None):
             move = gameboard.desperation(head)
@@ -75,7 +77,6 @@ class Battlesnake(object):
     def end(self):
         # This function is called when a game your snake was in ends.
         # It's purely for informational purposes, you don't have to make any decisions here.
-        data = cherrypy.request.json
         print("END")
         return "ok"
 

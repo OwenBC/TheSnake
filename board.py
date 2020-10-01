@@ -93,7 +93,7 @@ class Board:
 				paths.append([len(path),self.__return_first_move(path)])
 
 		#If starving look for any path to food
-		if len(paths) == 0 and starving = True:
+		if len(paths) == 0 and starving:
 			for f in food:
 				f_pos = (f["x"],f["y"])
 				path = self.__astarPath(head,f_pos)
@@ -101,7 +101,7 @@ class Board:
 					paths.append([len(path),self.__return_first_move(path)])
 			if len(paths) == 0:
 				return None
-				
+
 		#Return the move of the shortest path
 		target = paths[0]
 		for f in paths:
@@ -110,12 +110,10 @@ class Board:
 		return target[1]
 
 	#tail chase
-	def coil(self, head, tail):
-		path = self.__astarPath(head, tail)
+	def coil(self, head, tail, allow_danger_moves = False):
+		path = self.__astarPath(head, tail, allow_danger_moves)
 		if path == None:
-			path = self.__astarPath(head, tail, True)
-			if path == None:
-				return None
+			return None
 		return self.__return_first_move(path)
 
 	#TODO: Coil function for other snakes tails. Note: make sure snake hasn't just eaten
