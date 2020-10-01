@@ -77,8 +77,8 @@ class Board:
 	def __return_first_move(self, path):
 		return self.__get_move(path[0], path[1])
 
-	def __astarPath(self, start, end, allow_danger_moves = False):
-		return astar.astar(self.board, start, end, allow_danger_moves)
+	def __astarPath(self, start, end, allow_danger_moves = False, tail_is_target = False):
+		return astar.astar(self.board, start, end, allow_danger_moves, tail_is_target)
 
 	#check path for two closest foods and return first move of shortest path 
 	#TODO: try to find path that leads to a tail
@@ -89,7 +89,7 @@ class Board:
 		for f in food:
 			f_pos = (f["x"],f["y"])
 			path = self.__astarPath(head,f_pos)
-			if path != None and self.__astarPath(f_pos,tail) != None:
+			if path != None and self.__astarPath(f_pos,tail, tail_is_target = True) != None:
 				paths.append([len(path),self.__return_first_move(path)])
 
 		#If starving look for any path to food

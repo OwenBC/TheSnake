@@ -41,7 +41,7 @@ def return_path(current_node):
 
         
 
-def astar(maze, start, end, allow_danger_squares = False, allow_diagonal_movement = False):
+def astar(maze, start, end, allow_danger_squares = False, tail_is_target = False, allow_diagonal_movement = False):
     """
     Returns a list of tuples as a path from the given start to the given end in the given maze
     :param maze:
@@ -104,7 +104,7 @@ def astar(maze, start, end, allow_danger_squares = False, allow_diagonal_movemen
                 continue
 
             # Make sure walkable terrain
-            if maze[node_position[0]][node_position[1]] > 2:
+            if maze[node_position[0]][node_position[1]] > 2 and not (tail_is_target and (node_position[0],node_position[1]) == end):
               if not (allow_danger_squares and maze[node_position[0]][node_position[1]] == 6):
                 continue
 
