@@ -1,6 +1,7 @@
 import os
 
 import cherrypy
+import math
 from board import Board
 
 class Battlesnake(object):
@@ -45,7 +46,7 @@ class Battlesnake(object):
 
         #TODO: look for food if not biggest snake, if biggest HUNT
         #hungr, look for food
-        if data["you"]["health"] < 100 - data["turn"]: #change to make food lower priority as snakes die
+        if data["you"]["health"] < 100*(0.998**data["turn"]): #change to make food lower priority as snakes die
             move = gameboard.seek_food(head, tail, data["board"]["food"], data["you"]["health"] <= 5)
             move_msg = "looking for food"
         #chase tail
