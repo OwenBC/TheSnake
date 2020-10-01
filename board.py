@@ -77,53 +77,50 @@ class Board:
 	def __return_first_move(self, path):
 		return self.__get_move(path[0], path[1])
 
-	def __astarPath(self, start, end):
-		return astar.astar(self.board, start, end)
+	def __astarPath(self, start, end, allow_danger_moves = False):
+		return astar.astar(self.board, start, end, allow_danger_moves)
 
 	#check path for two closest foods and return first move of shortest path 
 	#TODO: try to find path that leads to a tail
-	def seek_food(self, pos, food):
-		food_length = len(food)
-		targets = []
-		while len(targets) < min(2, food_length):
-			temp_targets = []  
-			min_dist = self.width + self.height
-			for f in food:
-				dist = abs(pos[0]-f["x"]) + abs(pos[1]-f["y"])
-				if(dist < min_dist):
-					min_dist = dist
-					temp_targets = [f]
-				elif(dist == min_dist):
-					temp_targets.append(f)
-			for f in temp_targets:
-				food.remove(f)
-				targets.append(f)
-		astarPaths = []
-		for f in targets:
+	def seek_food(self, head, tail, food, starving = False):
+
+		paths = []
+		#Look for food with a return path
+		for f in food:
 			f_pos = (f["x"],f["y"])
-			path = self.__astarPath(pos, f_pos)
-			if path != None:
-				astarPaths.append([len(path), self.__return_first_move(path)])
-		if len(astarPaths) == 0:
-			return None
-		#print(astarPaths)
-		target = astarPaths[0]
-		for f in astarPaths:
+			path = self.__astarPath(head,f_pos)
+			if path != None and self.__astarPath(f_pos,tail) != None:
+				paths.append([len(path),self.__return_first_move(path)])
+
+		#If starving look for any path to food
+		if len(paths) == 0 and starving = True:
+			for f in food:
+				f_pos = (f["x"],f["y"])
+				path = self.__astarPath(head,f_pos)
+				if path != None:
+					paths.append([len(path),self.__return_first_move(path)])
+			if len(paths) == 0:
+				return None
+				
+		#Return the move of the shortest path
+		target = paths[0]
+		for f in paths:
 			if f[0] < target[0]:
 				target = f
-		#print(target)
 		return target[1]
 
-	#tell me how to get to back end
+	#tail chase
 	def coil(self, head, tail):
 		path = self.__astarPath(head, tail)
 		if path == None:
-			return None
+			path = self.__astarPath(head, tail, True)
+			if path == None:
+				return None
 		return self.__return_first_move(path)
 
 	#TODO: Coil function for other snakes tails. Note: make sure snake hasn't just eaten
 
-	#pick an empty adjacent move
+	#pick an empty adjacent move TODO: there's something wrong here, probably here
 	def desperation(self,head):
 		adj = self.__get_adj(head)
 		open_moves = []
