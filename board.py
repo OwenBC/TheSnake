@@ -93,13 +93,16 @@ class Board:
 				paths.append([len(path),self.__return_first_move(path)])
 
 		#If starving look for any path to food
-		if len(paths) == 0 and starving:
-			for f in food:
-				f_pos = (f["x"],f["y"])
-				path = self.__astarPath(head,f_pos)
-				if path != None:
-					paths.append([len(path),self.__return_first_move(path)])
-			if len(paths) == 0:
+		if len(paths) == 0:
+			if starving:
+				for f in food:
+					f_pos = (f["x"],f["y"])
+					path = self.__astarPath(head,f_pos)
+					if path != None:
+						paths.append([len(path),self.__return_first_move(path)])
+				if len(paths) == 0:
+					return None
+			else: 
 				return None
 
 		#Return the move of the shortest path
